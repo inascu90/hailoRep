@@ -32,6 +32,8 @@ class user_app_callback_class(app_callback_class):
 def app_callback(pad, info, user_data):
     # Get the GstBuffer from the probe info
     buffer = info.get_buffer()
+    print('buffer type',type(buffer))
+    print('buffer ',buffer)
     # Check if the buffer is valid
     if buffer is None:
         return Gst.PadProbeReturn.OK
@@ -48,9 +50,11 @@ def app_callback(pad, info, user_data):
     if user_data.use_frame and format is not None and width is not None and height is not None:
         # Get video frame
         frame = get_numpy_from_buffer(buffer, format, width, height)
-
+    print('buffer type1',type(buffer))
+    print('buffer 1',buffer)
     # Get the detections from the buffer
     roi = hailo.get_roi_from_buffer(buffer)
+    
     detections = roi.get_objects_typed(hailo.HAILO_DETECTION)
 
     # Parse the detections
